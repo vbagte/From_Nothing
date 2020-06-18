@@ -18,6 +18,16 @@ TagManager:
   - ElevatorTrigger
   - BatteryJump
   - ChargeStation
+  - BatteryShoot
+  - Wall
+  - Enemy
+  - Health
+  - BossHealth
+  - Boss
+  - BossSpot
+  - Balcony
+  - Debris
+  - Button
   layers:
   - Default
   - TransparentFX
@@ -29,10 +39,10 @@ TagManager:
   - 
   - Platforms
   - Wall
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Debris
+  - Floor
+  - Player
   - 
   - 
   - 

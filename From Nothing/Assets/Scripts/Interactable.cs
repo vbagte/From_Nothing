@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+using FMODUnity;
 public class Interactable : MonoBehaviour
 {
+    public static bool canInteractS = true;
+
     private GameObject player;
     private GameObject pickupSpot;
     private GameObject interactPanel;
@@ -22,7 +24,7 @@ public class Interactable : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && canInteractS)
         {
             if (canPickup)
             {
@@ -34,6 +36,7 @@ public class Interactable : MonoBehaviour
             }
             else if (canInteract)
             {
+                LevelManager.canPause = false;
                 player.GetComponent<PlayerController>().enabled = false;
                 interactPanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
                 interactText.color = new Color(255, 255, 255, 0);
@@ -47,6 +50,7 @@ public class Interactable : MonoBehaviour
     {
         if (CompareTag("Pickup") && other.CompareTag("Player"))
         {
+            RuntimeManager.PlayOneShot("event:/Environment/interact");
             interactText.text = "Press F to pick up";
             interactPanel.GetComponent<Image>().color = new Color(0, 0, 0, 0.3f);
             interactText.color = new Color(255, 255, 255, 1);
@@ -54,13 +58,15 @@ public class Interactable : MonoBehaviour
         }
         else if (CompareTag("Door") && other.CompareTag("Player") || CompareTag("ElevatorButton") && Level_01_Interact_Manager.elevatorButtonPressed)
         {
+            RuntimeManager.PlayOneShot("event:/Environment/interact");
             interactText.text = "Press F to enter";
             interactPanel.GetComponent<Image>().color = new Color(0, 0, 0, 0.3f);
             interactText.color = new Color(255, 255, 255, 1);
             canInteract = true;
         }
-        else
+        else if (other.CompareTag("Player"))
         {
+            RuntimeManager.PlayOneShot("event:/Environment/interact");
             interactText.text = "Press F to interact";
             interactPanel.GetComponent<Image>().color = new Color(0, 0, 0, 0.3f);
             interactText.color = new Color(255, 255, 255, 1);
@@ -76,7 +82,7 @@ public class Interactable : MonoBehaviour
             interactText.color = new Color(255, 255, 255, 0);
             canPickup = false;
         }
-        else
+        else if (other.CompareTag("Player"))
         {
             interactPanel.GetComponent<Image>().color = new Color(0, 0, 0, 0);
             interactText.color = new Color(255, 255, 255, 0);

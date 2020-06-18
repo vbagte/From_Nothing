@@ -395,6 +395,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1423429411736096158}
   - component: {fileID: 61753214751844008}
+  - component: {fileID: 114189794914522622}
+  - component: {fileID: 111897576545849094}
   m_Layer: 8
   m_Name: balcony
   m_TagString: Untagged
@@ -447,3 +449,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.040442765, y: 0.0021721947}
   m_EdgeRadius: 0
+--- !u!114 &114189794914522622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423429411735605694}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da539ade9da550c4b800e9f8274188ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
+--- !u!111 &111897576545849094
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423429411735605694}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: c7994c7301c88f843a9876c33569f914, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: c7994c7301c88f843a9876c33569f914, type: 2}
+  - {fileID: 7400000, guid: 5d5376c97df66244e8e1b436095c482f, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0

@@ -4,33 +4,41 @@ using UnityEngine;
 
 public class FMODMixer : MonoBehaviour
 {
-
+    FMOD.Studio.EventInstance sfxTestEvent;
     FMOD.Studio.Bus musicBus;
     FMOD.Studio.Bus sfxBus;
-
-    [SerializeField]
-    [Range(-80f, 10f)]
-    private float musicBusVolume;
-    private float musicVolume;
-
-    [SerializeField]
-    [Range(-80f, 10f)]
-    private float sfxBusVolume;
-    private float sfxVolume;
+    private float musicVolume = 0.5f;
+    private float sfxVolume = 0.5f;
 
     private void Start()
     {
-        musicBus = FMODUnity.RuntimeManager.GetBus("bus:/Music");
-        sfxBus = FMODUnity.RuntimeManager.GetBus("bus:/SFX");
+        sfxTestEvent = FMODUnity.RuntimeManager.CreateInstance("event:/Environment/Interactables/gempickup");
+        musicBus = FMODUnity.RuntimeManager.GetBus("bus:/Master/Music");
+        sfxBus = FMODUnity.RuntimeManager.GetBus("bus:/Master/SFX");
     }
 
     private void Update()
     {
-        musicVolume = Mathf.Pow(10.0f, musicBusVolume / 20f);
         musicBus.setVolume(musicVolume);
-
-        sfxVolume = Mathf.Pow(10.0f, sfxBusVolume / 20f);
         sfxBus.setVolume(sfxVolume);
+    }
+
+    public void MusicVolumeLevel(float newMusicVolume)
+    {
+        musicVolume = newMusicVolume;
+    }
+
+    public void SFXVolumeLevel(float newSFXVolume)
+    {
+        sfxVolume = newSFXVolume;
+
+        FMOD.Studio.PLAYBACK_STATE playbackState;
+        sfxTestEvent.getPlaybackState(out playbackState);
+        if (playbackState != FMOD.Studio.PLAYBACK_STATE.PLAYING)
+        {
+            sfxTestEvent.start();
+        }
+
     }
 
 }

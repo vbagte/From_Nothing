@@ -14,41 +14,61 @@ using System.Collections;
 public class LevelManager : MonoBehaviour
 {
 
+    public static bool canPause;
+    public bool iCanPause;
+
     public string SceneToLoad;//variable name that will be the name of the next scene
     public string settings;//variable name to go to the settings
     //public Animator animator; //access the animator
     int count = 1; //Counter for how many times escape is pressed. Must be set to 1. Code checks for odd or even counts
     public GameObject PauseMenu; //variable for the pause menu game object
     public GameObject player;  //Variable for the player to disable movement
+    public GameObject fade; //fade panel
+    private FMOD.Studio.Bus musicBus;
 
     private void Start()
     {
         GetComponent<Animation>().Play("FadeToClear");//Animation between scenes
-        PauseMenu = GameObject.Find("objPauseMenu");//Pause Menu to be able to show it and hide it
+        if (PauseMenu == null)
+        {
+            PauseMenu = GameObject.Find("objPauseMenu");//Pause Menu to be able to show it and hide it
+        }
         PauseMenu.SetActive(false);
         player = GameObject.Find("Player");
-
+        musicBus = FMODUnity.RuntimeManager.GetBus("bus:/Master/Music");
     }
 
     //Checks for input so often
     private void Update()
     {
+        //Check pause status
+        iCanPause = canPause;
         //Check to see if the escape key has been pressed. MUST BE KEY DOWN
-        if (Input.GetKeyDown("escape"))
+        if (Input.GetKeyDown("escape") && canPause)
         {
             count++;//Add one to the counter to check to see how many times the escape is pressed
 
             //If the count is even then activate the menu, disable player movement
             if (count % 2 == 0)
             {
+                musicBus.setPaused(true);
+                Interactable.canInteractS = false;
+                Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
                 player.GetComponent<PlayerController>().enabled = false;//Disable player movement
                 PauseMenu.SetActive(true);
+                Time.timeScale = 0; // stop time
             }
             //Else If the count is odd then, deactivate the menu, activate player movement
             else
             {
+                musicBus.setPaused(false);
+                Interactable.canInteractS = true;
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Locked;
                 player.GetComponent<PlayerController>().enabled = true;//Enable player movement
                 PauseMenu.SetActive(false);
+                Time.timeScale = 1; // resume time
             }
         }
     }
@@ -76,14 +96,22 @@ public class LevelManager : MonoBehaviour
 
     }
 
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("scMainMenu");
+    }
+
     IEnumerator anim(string scene)
     {
-        GetComponent<Animation>().Play("FadeToBlack");
+        fade.SetActive(true);
+        //fade.GetComponent<Animator>().Play("FadeToBlack");
         yield return new WaitForSeconds(1);
-        //if (SceneManager.GetActiveScene().name == "scLevel1")
-        //{
-        //    GameObject.Find("GameObject").GetComponent<LevelStart2>().enabled = true;
-        //}
+        //reset game values
+        Level_01_Interact_Manager.Reset();
+        LevelStart1.level1Entered = false;
+        LevelStart2.levelEntered = false;
+        LevelStart3.levelEntered = false;
+        //load main menu
         SceneManager.LoadScene(scene);
     }
 
