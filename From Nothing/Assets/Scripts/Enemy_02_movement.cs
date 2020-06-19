@@ -64,7 +64,7 @@ public class Enemy_02_movement : MonoBehaviour
             transform.Translate(-speed * Time.deltaTime, 0, 0);
         }
 
-        if (Vector3.Distance(transform.position, player.transform.position) < distanceFromPlayer && transform.localPosition.y < -5)
+        if (Vector3.Distance(transform.position, player.transform.position) < distanceFromPlayer && transform.position.y < -3)
         {
             playerNear = true;
             if (!jumpCall)

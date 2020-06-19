@@ -267,7 +267,7 @@ public class Chimera : MonoBehaviour
         bossShot.GetComponent<BossShot>().enabled = false;
         bossShot.GetComponent<Collider2D>().enabled = false;
         GameObject shot = (GameObject)Instantiate(bossShot, shotSpawn.transform.position, bossShot.transform.rotation);
-        while (shot.transform.localScale.y < 1.5f)
+        while (shot.transform.localScale.y < 1)
         {
             Vector3 size = new Vector3(.6f, .6f, .6f);
             shot.transform.localScale += size * Time.deltaTime;
@@ -296,31 +296,70 @@ public class Chimera : MonoBehaviour
 
     void ShotSpread90()
     {
-        Vector3 size = new Vector3(1.5f, 1.5f, 1.5f);
+        Vector3 size = new Vector3(1, 1, 1);
         bossShot.transform.localScale = size;
-        Vector3 difference = player.transform.position - shotSpawn.transform.position;
-        float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
-        shotSpawn.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
-        for (int i = 0; i < 3; i++)
+        //Vector3 difference = player.transform.position - shotSpawn.transform.position;
+        //float rotationZ = Mathf.Atan2(difference.y, difference.x) * Mathf.Rad2Deg;
+        //shotSpawn.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ);
+        if (healthCurrent > (healthMax / 2))
         {
             GameObject shot = (GameObject)Instantiate(bossShot, shotSpawn.transform.position, shotSpawn.transform.rotation);
             shot.GetComponent<BossShot>().enabled = true;
             shot.GetComponent<Collider2D>().enabled = true;
-            Vector3 rotation = new Vector3(shotSpawn.transform.eulerAngles.x,
-                shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z + 15);
-            shotSpawn.transform.eulerAngles = rotation;
+            for (int i = 0; i < 1; i++)
+            {
+                Vector3 rotation = new Vector3(shotSpawn.transform.eulerAngles.x - 30,
+                    shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z);
+                shotSpawn.transform.eulerAngles = rotation;
+                GameObject shot2 = (GameObject)Instantiate(bossShot, shotSpawn.transform.position, shotSpawn.transform.rotation);
+                shot2.GetComponent<BossShot>().enabled = true;
+                shot2.GetComponent<Collider2D>().enabled = true;
+            }
+            Vector3 rotation2 = new Vector3(shotSpawn.transform.eulerAngles.x + 30,
+                    shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z);
+            shotSpawn.transform.eulerAngles = rotation2;
+            for (int i = 0; i < 1; i++)
+            {
+                Vector3 rotation = new Vector3(shotSpawn.transform.eulerAngles.x + 30,
+                    shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z);
+                shotSpawn.transform.eulerAngles = rotation;
+                GameObject shot3 = (GameObject)Instantiate(bossShot, shotSpawn.transform.position, shotSpawn.transform.rotation);
+                shot3.GetComponent<BossShot>().enabled = true;
+                shot3.GetComponent<Collider2D>().enabled = true;
+            }
+            Vector3 rotation3 = new Vector3(shotSpawn.transform.eulerAngles.x - 30,
+                    shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z);
+            shotSpawn.transform.eulerAngles = rotation3;
         }
-        Vector3 difference2 = player.transform.position - shotSpawn.transform.position;
-        float rotationZ2 = Mathf.Atan2(difference2.y, difference2.x) * Mathf.Rad2Deg;
-        shotSpawn.transform.rotation = Quaternion.Euler(0.0f, 0.0f, rotationZ2);
-        for (int i = 0; i < 3; i++)
+        else
         {
             GameObject shot = (GameObject)Instantiate(bossShot, shotSpawn.transform.position, shotSpawn.transform.rotation);
             shot.GetComponent<BossShot>().enabled = true;
             shot.GetComponent<Collider2D>().enabled = true;
-            Vector3 rotation = new Vector3(shotSpawn.transform.eulerAngles.x,
-                shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z - 15);
-            shotSpawn.transform.eulerAngles = rotation;
+            for (int i = 0; i < 2; i++)
+            {
+                Vector3 rotation = new Vector3(shotSpawn.transform.eulerAngles.x - 45,
+                    shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z);
+                shotSpawn.transform.eulerAngles = rotation;
+                GameObject shot2 = (GameObject)Instantiate(bossShot, shotSpawn.transform.position, shotSpawn.transform.rotation);
+                shot2.GetComponent<BossShot>().enabled = true;
+                shot2.GetComponent<Collider2D>().enabled = true;
+            }
+            Vector3 rotation2 = new Vector3(shotSpawn.transform.eulerAngles.x + 90,
+                    shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z);
+            shotSpawn.transform.eulerAngles = rotation2;
+            for (int i = 0; i < 2; i++)
+            {
+                Vector3 rotation = new Vector3(shotSpawn.transform.eulerAngles.x + 45,
+                    shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z);
+                shotSpawn.transform.eulerAngles = rotation;
+                GameObject shot3 = (GameObject)Instantiate(bossShot, shotSpawn.transform.position, shotSpawn.transform.rotation);
+                shot3.GetComponent<BossShot>().enabled = true;
+                shot3.GetComponent<Collider2D>().enabled = true;
+            }
+            Vector3 rotation3 = new Vector3(shotSpawn.transform.eulerAngles.x - 90,
+                    shotSpawn.transform.eulerAngles.y, shotSpawn.transform.eulerAngles.z);
+            shotSpawn.transform.eulerAngles = rotation3;
         }
         Vector3 zero = new Vector3(0, 0, 0);
         bossShot.transform.localScale = zero;
@@ -464,22 +503,23 @@ public class Chimera : MonoBehaviour
             }
             if (attackStatus == 2)
             {
-                if (healthCurrent == healthMax)
-                {
-                    StartCoroutine(HowlAttack());
-                }
-                else
-                {
-                    int choice = Random.Range(0, 2);
-                    if (choice == 0)
-                    {
-                        StartCoroutine(Heal());
-                    }
-                    else
-                    {
-                        StartCoroutine(HowlAttack());
-                    }
-                }
+                StartCoroutine(HowlAttack());
+                //if (healthCurrent == healthMax)
+                //{
+                //    StartCoroutine(HowlAttack());
+                //}
+                //else
+                //{
+                //    int choice = Random.Range(0, 2);
+                //    if (choice == 0)
+                //    {
+                //        StartCoroutine(Heal());
+                //    }
+                //    else
+                //    {
+                //        StartCoroutine(HowlAttack());
+                //    }
+                //}
             }
         }
     }

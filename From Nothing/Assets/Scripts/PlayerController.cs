@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
-    public static bool canJump = true;
-    public static bool doubleJumpActive = true;
-    public static bool footprintActive = false;
-    public static bool canShoot = true;
+    public static bool canJump = false;
+    public static bool doubleJumpActive = false;
+    public static bool footprintActive = true;
+    public static bool canShoot = false;
 
     public float moveSpeed = 3f;
     public float jumpSpeed = 1f;

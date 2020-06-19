@@ -43,6 +43,8 @@ public class Level04Dialogue : MonoBehaviour
             }
             else if (dialogueStatus == 2)
             {
+                // play sound
+                RuntimeManager.PlayOneShot("event:/Enemies/chimerahowl");
                 boss.GetComponentInChildren<Animator>().SetBool("isHowling", true);
                 StartCoroutine(Howl());
                 dialogueActive = false;
